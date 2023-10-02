@@ -4,6 +4,7 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Loader from "../components/Loader";
 import { useGetProductDetailsQuery } from '../slices/productsApiSlice';
+import Message from "../components/Message";
 
 const ProductScreen = () => {
     const { id: productId } = useParams();
@@ -18,7 +19,7 @@ const ProductScreen = () => {
         { isLoading ? (
             <Loader />
             ) : error ? (
-            <div>{ error?.data?.message || error?.error }</div>
+                <Message variant="danger">{ error?.data?.message || error.error }</Message>
             ) : (
             <Row>
                 <Col md={5}>
@@ -26,13 +27,17 @@ const ProductScreen = () => {
                 </Col>
                 <Col md={4}>
                     <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <h3>{product.name}</h3>
+                        <h3>{product.name}</h3>
+                        <div className='mb-2'>
                             <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-                        </ListGroup.Item>
-                        <ListGroup.Item><strong>Price: &nbsp;${product.price}</strong></ListGroup.Item>
-                        <ListGroup.Item><strong>About this item</strong><br />
-                            {product.description}</ListGroup.Item>
+                        </div>
+                        <hr />
+                        <h5 className='infy'>Infinity Deal</h5>
+                        <h1>&nbsp;₹{product.price} <span className="du1 duDonP">₹{product.originalPrice}</span> <span className="du2 duDonP"><strong>{product.offer}% off</strong></span></h1>
+                        <p className='duDon'>Inclusive of all taxes</p>
+                        <hr />
+                        <strong>About this item</strong> <br />
+                            <p>{product.description}</p>
                     </ListGroup>
                 </Col>
                 <Col md={3}>
@@ -41,7 +46,7 @@ const ProductScreen = () => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Price:</Col>
-                                    <Col><strong>${product.price}</strong></Col>
+                                    <Col><strong>₹{product.price}</strong></Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
